@@ -19,6 +19,7 @@
 		- check DEBFULLNAME and MAINTAINER_NAME for name
 	      - deb only: repo name to place in changelog file
 
+- if we're just building a new version
 
 General items:
 - create JaM org on docker hub
