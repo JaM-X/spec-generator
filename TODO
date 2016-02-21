@@ -1,26 +1,28 @@
-- get source URL or local FS path
-	- if URL:
-		- fetch and extract
-	- if local
-		- if archive
-			- extract
-	
-- analyze source for build and runtime dependencies
-- preinstall needed build deps
-- generate spec 
-      - description
-      - source URL
-      - license - try to auto detect looking for files named license/i or copyright/i
-      - arch - try to auto detect whether noarch/indep according to source type. For example, if the source is PHP||Perl||Python||many others only, then it is indep.
-      - changelog
-	- for deb we have debchange and dh-make already takes care of the initial import
-	- need a parallel for RPM
-      - auto detect config files
-      - dev package
-      - maintainer 
-	- check MAIL and DEBEMAIL ENV vars for email
-	- check DEBFULLNAME and MAINTAINER_NAME for name
+- if we're generating a new package:
+	- get env matrix - i.e, on what distros this package should be built
+	- get source URL
+	- start a docker container of relevant distro
+	- analyze source for build and runtime dependencies
+	- preinstall needed build deps
+	- generate spec 
+	      - description
+	      - source URL
+	      - license - try to auto detect looking for files named license/i or copyright/i
+	      - arch - try to auto detect whether noarch/indep according to source type. For example, if the source is PHP||Perl||Python||many others only, then it is indep.
+	      - changelog
+		- for deb we have debchange and dh-make already takes care of the initial import, check what it does as far as setting the distro goes, we'll need to query the user for that and place in the build.rc file.
+		- need a parallel for RPM
+	      - auto detect config files
+	      - dev package
+	      - maintainer 
+		- check MAIL and DEBEMAIL ENV vars for email
+		- check DEBFULLNAME and MAINTAINER_NAME for name
+	      - deb only: repo name to place in changelog file
 
-For deb packages dh_make makes a sound base for generating skeleton files, we then need to add the missing pieces.
-For RPMs a new tool will need to be created
 
+General items:
+- create JaM org on docker hub
+- create docker build containers for:
+	- debian 8, testing and sid
+	- ubuntu 14.04, 15.10
+	- centos 6, 7

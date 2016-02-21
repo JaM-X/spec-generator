@@ -1,0 +1,8 @@
+# comma separated in the form of $DIST_$VERSION
+SUPPORTED_ENVS=""
+# URL to download the package source from
+SOURCE_URL=""
+# optional for deb. If not supplied, use containers dist name
+DIST_NAME
+
+
