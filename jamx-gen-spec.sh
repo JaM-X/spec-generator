@@ -1,14 +1,14 @@
 #!/bin/bash - 
 #===============================================================================
-#          FILE: gen-spec.sh
-#         USAGE: ./gen-spec.sh 
+#          FILE: jamx-gen-spec.sh
+#         USAGE: ./jamx-gen-spec.sh 
 #   DESCRIPTION: Will accept a source in the form of a URL or local FS path and generate spec files 
 #       OPTIONS: source path
 #  REQUIREMENTS: ---
 #          BUGS: ---
 #         NOTES: ---
-#        AUTHOR: Jess Portnoy (), <jess.portnoy@kaltura.com>
-#  ORGANIZATION: Kaltura, inc.
+#        AUTHOR: Jess Portnoy (), <jess@jam-x.io>
+#  ORGANIZATION: JaM-X.
 #       CREATED: 02/20/2016 10:48:56 PM GMT
 #      REVISION:  ---
 #===============================================================================
