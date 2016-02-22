@@ -9,10 +9,15 @@
 	      - source URL
 	      - license - try to auto detect looking for files named license/i or copyright/i
 	      - arch - try to auto detect whether noarch/indep according to source type. For example, if the source is PHP||Perl||Python||many others only, then it is indep.
+	      - prompt for prefix dir
 	      - changelog
 		- for deb we have debchange and dh-make already takes care of the initial import, check what it does as far as setting the distro goes, we'll need to query the user for that and place in the build.rc file.
 		- need a parallel for RPM
 	      - auto detect config files
+	      - auto detect init scripts
+	      - source prep:
+	              - remove {.git,.csv,.svn} files
+		      - set proper permissions on files, i.e: remove redundant/add exec bit where needed
 	      - dev package
 	      - maintainer 
 		- check MAIL and DEBEMAIL ENV vars for email
