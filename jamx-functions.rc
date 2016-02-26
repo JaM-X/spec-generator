@@ -1,0 +1,5 @@
+# required functions
+# validate SUPPORTED_ENVS selection
+# validate PACKAGE_NAME
+# validate PACKAGE_VERSION
+# validate URL is reachable

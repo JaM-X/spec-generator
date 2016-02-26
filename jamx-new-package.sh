@@ -37,6 +37,20 @@ Package Name:${NORMAL}
 read PACKAGE_NAME
 
 echo -en "
+${YELLOW}STEP: Package source URL
+
+${CYAN}The URL to download $PACKAGE_NAME source from:${NORMAL}
+"
+read SOURCE_URL
+
+echo -en "
+${YELLOW}STEP: Package version
+
+${CYAN}$PACKAGE_NAME version:${NORMAL}
+"
+read PACKAGE_VERSION
+
+echo -en "
 ${YELLOW}STEP: ENVs to build $PACKAGE_NAME for${NORMAL}
 
 ${CYAN}Supported ENVs are: ${GREEN}$AVAILABLE_ENVS${CYAN}
