@@ -1,6 +1,8 @@
 - if we're generating a new package:
 	- get env matrix - i.e, on what distros this package should be built
 	- get source URL
+	- get version
+	- write info to RC file
 	- start a docker container of relevant distro
 	- analyze source for build and runtime dependencies
 	- preinstall needed build deps

@@ -1,0 +1,2 @@
+PRODUCT_NAME="JaM-X"
+AVAILABLE_ENVS="debian:8,centos:7,centos:6"
