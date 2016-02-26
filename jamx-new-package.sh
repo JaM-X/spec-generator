@@ -60,9 +60,7 @@ ${NORMAL}
 " 
 
 read SUPPORTED_ENVS
-# URL to download the package source from
-SOURCE_URL=""
-PACKAGE_VERSION=""
+# PACKAGE_DESCRIPTION
 # optional for deb. If not supplied, use container's dist name
 # DIST_NAME
 
