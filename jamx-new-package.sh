@@ -13,7 +13,6 @@
 #      REVISION:  ---
 #===============================================================================
 
-#set -o nounset                              # Treat unset variables as an error
 DIRNAME=`dirname $0`
 if [ ! -r $DIRNAME/jamx.rc ];then
 	echo "Missing $DIRNAME/jamx.rc. Something is wrong with your ENV. Exiting."
@@ -21,8 +20,8 @@ if [ ! -r $DIRNAME/jamx.rc ];then
 fi
 . $DIRNAME/jamx.rc
 
-if [ -r $DIRNAME/colors.sh ];then
-	. $DIRNAME/colors.sh
+if [ -r $DIRNAME/colors.rc ];then
+	. $DIRNAME/colors.rc
 fi
 echo -en "${CYAN}Welcome to $PRODUCT_NAME new package generator!
 
