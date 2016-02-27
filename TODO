@@ -1,4 +1,18 @@
 General items:
+- JaM-X package:
+ - depend on rpm-build
+ - create jamx user
+ - create these dirs under ~jamx/rpmbuild:
+   BUILD BUILDROOT RPMS SRPMS
+ - JaM-X scripts go to ~jamx/bin
+ - configuration goes to ~jamx/etc
+
+
+ RPM package:
+ - depend on rpm-build vim-enhanced
+ deb package:
+ - depend on build-essential debhelper dh-make vim-nox
+
 - create JaM org on docker hub
 - create docker build containers for:
 	- debian 8, testing and sid
