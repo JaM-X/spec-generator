@@ -25,5 +25,10 @@ validate_url()
 
 }
 
+start_docker_container()
+{
+
+}
+
 # validate PACKAGE_NAME
 # validate PACKAGE_VERSION

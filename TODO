@@ -1,3 +1,13 @@
+General items:
+- create JaM org on docker hub
+- create docker build containers for:
+	- debian 8, testing and sid
+	- ubuntu 14.04, 15.10
+	- centos 6, 7
+- Build generic templating mechanism based on dpkg's template mechanism only it would also allow setting a callback function for verifying inputs.
+
+
+	- will support TUI and CLI
 - if we're generating a new package:
 	- get env matrix - i.e, on what distros this package should be built
 	- get source URL
@@ -28,9 +38,3 @@
 
 - if we're just building a new version
 
-General items:
-- create JaM org on docker hub
-- create docker build containers for:
-	- debian 8, testing and sid
-	- ubuntu 14.04, 15.10
-	- centos 6, 7
