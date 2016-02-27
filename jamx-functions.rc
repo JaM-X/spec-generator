@@ -1,5 +1,29 @@
 # required functions
-# validate SUPPORTED_ENVS selection
+validate_target_envs()
+{
+	SUPPORTED_ENVS="$1"
+	OIFS=$IFS
+	IFS=','
+	for DA_ENV in $SUPPORTED_ENVS;do
+		if ! echo "$AVAILABLE_ENVS"| grep -q $DA_ENV;then
+			UNSUPPORTED_ENVS="$UNSUPPORTED_ENVS $DA_ENV"
+	   	fi
+	done
+
+	IFS=$OIFS
+	if [ -n "$UNSUPPORTED_ENVS" ];then
+		export UNSUPPORTED_ENVS
+		return 1
+	fi
+}
+
+validate_url()
+{
+	SOURCE_URL=$1
+	curl -f "$SOURCE_URL" -k  > /dev/null 2>&1
+        return $?
+
+}
+
 # validate PACKAGE_NAME
 # validate PACKAGE_VERSION
-# validate URL is reachable

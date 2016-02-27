@@ -1,10 +1,11 @@
+PACKAGE_NAME="@@PACKAGE_NAME@@"
+PACKAGE_VERSION="@@PACKAGE_VERSION@@"
 # comma separated in the form of $DIST:$VERSION
-SUPPORTED_ENVS=""
+SUPPORTED_ENVS="@@SUPPORTED_ENVS@@"
 # URL to download the package source from
-SOURCE_URL=""
-PACKAGE_VERSION=""
-PACKAGE_DESCRIPTION=""
+SOURCE_URL="@@SOURCE_URL@@"
+PACKAGE_DESCRIPTION="`dirname $0`/DESCRIPTION"
 # optional for deb. If not supplied, use container's dist name
-DIST_NAME=""
+DIST_NAME="@@DIST_NAME@@"
 
 
