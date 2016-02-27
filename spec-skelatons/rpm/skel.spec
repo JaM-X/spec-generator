@@ -1,19 +1,19 @@
-Name:
-Version:
+Name: @@PACKAGE_NAME@@
+Version: @@PACKAGE_VERSION@@
 Release:        1
-Summary:
+Summary: @@PACKAGE_SUMMARY@
 
-Group:
-License:
-URL:
-Source0:
+Group: @@PACKAGE_GROUP@@
+License: @@PACKAGE_LICENSE@@
+URL: @@PACKAGE_URL@@
+Source0: @@PACKAGE_URL@@
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
-BuildRequires:
-Requires:
+BuildRequires: @@BUILD_REQUIRES@@
+Requires: @@PACKAGE_REQUIRES@@
 
 %description
-
+@@PACKAGE_DESCRIPTION@@
 
 %prep
 %setup -q
@@ -40,5 +40,5 @@ rm -rf %{buildroot}
 
 
 %changelog
-
+@@PACKAGE_CHANGELOG@@
 
