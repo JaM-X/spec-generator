@@ -18,10 +18,15 @@ General items:
 	- debian 8, testing and sid
 	- ubuntu 14.04, 15.10
 	- centos 6, 7
+
 - Build generic templating mechanism based on dpkg's template mechanism only it would also allow setting a callback function for verifying inputs.
+  - will support TUI and CLI
+
+Things to think of:
+ - if the package provides a daemon, need an init script/systemd template to start from
 
 
-	- will support TUI and CLI
+
 - if we're generating a new package:
 	- get env matrix - i.e, on what distros this package should be built
 	- get source URL

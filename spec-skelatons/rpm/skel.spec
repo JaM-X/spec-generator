@@ -5,7 +5,10 @@ Summary: @@PACKAGE_SUMMARY@
 
 Group: @@PACKAGE_GROUP@@
 License: @@PACKAGE_LICENSE@@
-URL: @@PACKAGE_URL@@
+URL: @@PROJECT_URL@@
+Packager: @@MAINTAINER_NAME@@ <@@MAINTAINER_EMAIL@@>
+
+
 Source0: @@PACKAGE_URL@@
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 

@@ -67,6 +67,24 @@ ${CYAN}URL to download $PACKAGE_NAME source from:${NORMAL}"
 done
 
 echo -en "
+${YELLOW}STEP: Project URL
+
+${CYAN}
+This is your project's main URL. For example, the home URL of your repo or company's website.
+
+$PACKAGE_NAME project URL:${NORMAL}
+"
+read PROJECT_URL
+sed -i "s^@@PROJECT_URL@@^$PROJECT_URL^g" $PACKAGE_RC_FILE
+
+while ! validate_url $SOURCE_URL;do
+	echo -en "${BRIGHT_RED}Could not access $SOURCE_URL. 
+
+${CYAN}URL to download $PACKAGE_NAME source from:${NORMAL}"
+	read -e SOURCE_URL
+done
+
+echo -en "
 ${YELLOW}STEP: Package version
 
 ${CYAN}$PACKAGE_NAME version:${NORMAL}
