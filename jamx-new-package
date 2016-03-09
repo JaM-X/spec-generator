@@ -27,7 +27,7 @@ echo -en "${CYAN}Welcome to $PRODUCT_NAME new package generator!
 
 This wizard will guide you through creating a new package.
 
-${YELLOW}STEP: Select a package name 
+${YELLOW}STEP: Package Name 
 
 ${CYAN}If your project has more than one word in its name, separate them with a '-'.
 
@@ -52,7 +52,7 @@ sed -i "s^@@PACKAGE_NAME@@^$PACKAGE_NAME^g" $PACKAGE_RC_FILE
 
 
 echo -en "
-${YELLOW}STEP: Package source URL
+${YELLOW}STEP: Package Source URL
 
 ${CYAN}URL to download $PACKAGE_NAME source from:${NORMAL}
 "
@@ -85,7 +85,7 @@ ${CYAN}URL to download $PACKAGE_NAME source from:${NORMAL}"
 done
 
 echo -en "
-${YELLOW}STEP: Package version
+${YELLOW}STEP: Package Version
 
 ${CYAN}$PACKAGE_NAME version:${NORMAL}
 "
@@ -93,7 +93,21 @@ read -e PACKAGE_VERSION
 sed -i "s^@@PACKAGE_VERSION@@^$PACKAGE_VERSION^g" $PACKAGE_RC_FILE
 
 echo -en "
-${YELLOW}STEP: ENVs to build $PACKAGE_NAME for${NORMAL}
+${YELLOW}STEP: Package Maintainer
+
+${CYAN}$PACKAGE_NAME Maintainer Name:${NORMAL}
+"
+read -e MAINTAINER_NAME
+sed -i "s^@@MAINTAINER_NAME@@^$MAINTAINER_NAME^g" $PACKAGE_RC_FILE
+
+echo -en "
+${CYAN}$PACKAGE_NAME Maintainer's Email:${NORMAL}
+"
+read -e MAINTAINER_EMAIL
+sed -i "s^@@MAINTAINER_EMAIL@@^$MAINTAINER_EMAIL^g" $PACKAGE_RC_FILE
+
+echo -en "
+${YELLOW}STEP: Build ENVs for $PACKAGE_NAME${NORMAL}
 
 ${CYAN}Supported ENVs are: ${GREEN}$AVAILABLE_ENVS${CYAN}
 
@@ -115,16 +129,17 @@ done
 sed -i "s^@@SUPPORTED_ENVS@@^$SUPPORTED_ENVS^g" $PACKAGE_RC_FILE
 
 echo -en "
-${YELLOW}STEP: Describe your package.
+${YELLOW}STEP: Describe $PACKAGE_NAME.
 
 ${CYAN}This will be part of your package metadata and will appear when users search for it.
 The first line should consist of a short summary, after that, you may provide a longer description. 
-
-${CYAN}$PACKAGE_NAME description:${NORMAL}
+Hit enter to input $PACKAGE_NAME description
+${NORMAL}
 " 
 if [ -z "$EDITOR" ];then
 	EDITOR=nano
 fi
+read
 $EDITOR $PACKAGE_DESC_FILE
 
 

@@ -10,6 +10,6 @@ PACKAGE_DESCRIPTION="`dirname $0`/DESCRIPTION"
 MAINTAINER_NAME="@@MAINTAINER_NAME@@"
 MAINTAINER_EMAIL="@@MAINTAINER_EMAIL@@"
 # optional for deb. If not supplied, use container's dist name
-DIST_NAME="@@DIST_NAME@@"
+#DIST_NAME="@@DIST_NAME@@"
 
 
