@@ -1,7 +1,7 @@
 General items:
 - JaM-X package:
  - depend on rpm-build
- - create jamx user
+ - create jamx user, sudoer for docker command
  - create these dirs under ~jamx/rpmbuild:
    BUILD BUILDROOT RPMS SRPMS
  - JaM-X scripts go to ~jamx/bin

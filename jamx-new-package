@@ -1,7 +1,7 @@
 #!/bin/bash - 
 #===============================================================================
-#          FILE: jamx-new-package.sh
-#         USAGE: ./jamx-new-package.sh 
+#          FILE: jamx-new-package
+#         USAGE: ./jamx-new-package 
 #   DESCRIPTION: 
 #       OPTIONS: ---
 #  REQUIREMENTS: ---
@@ -141,6 +141,8 @@ if [ -z "$EDITOR" ];then
 fi
 read
 $EDITOR $PACKAGE_DESC_FILE
+
+$DIRNAME/jamx-start-dockers $PACKAGE_RC_FILE
 
 
 # optional for deb. If not supplied, use container's dist name

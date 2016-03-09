@@ -25,10 +25,14 @@ validate_url()
 
 }
 
-#start_docker_container()
-#{
-#
-#}
+start_docker_container()
+{
+	DOCKER_FILE=$1
+	PACKAGE_NAME=$2
+	DOCKER_DIR=`dirname $DOCKER_FILE`
+	IMAGE_NAME=`basename $DOCKER_FILE`
+	sudo docker build -t $IMAGE_NAME-$PACKAGE_NAME $DOCKER_DIR && sudo docker run -i -t $IMAGE_NAME-$PACKAGE_NAME
+}
 
 # validate PACKAGE_NAME
 # validate PACKAGE_VERSION
