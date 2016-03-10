@@ -14,12 +14,6 @@
 #===============================================================================
 
 #set -o nounset                              # Treat unset variables as an error
-- get source URL or local FS path
-	- if URL:
-		- fetch and extract
-	- if local
-		- if archive
-			- extract
 	
 - analyze source for build and runtime dependencies
 - generate spec 
@@ -41,7 +35,8 @@ For RPMs a new tool will need to be created
 
 prepare_source()
 {
-
+#	- fetch and extract
+# 	- 
 }
 
 is_arch_indep()

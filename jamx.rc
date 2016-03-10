@@ -1,2 +1,3 @@
 PRODUCT_NAME="JaM-X"
 AVAILABLE_ENVS="debian:8,centos:7,centos:6"
+JAMX_BASE_GIT_REPO="https://github.com/JaM-X/"

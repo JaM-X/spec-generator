@@ -9,9 +9,9 @@ General items:
 
 
  RPM package:
- - depend on rpm-build vim-enhanced
+ - depend on rpm-build vim-enhanced wget unzip git
  deb package:
- - depend on build-essential debhelper dh-make vim-nox
+ - depend on build-essential debhelper dh-make vim-nox wget unzip git
 
 - create JaM org on docker hub
 - create docker build containers for:

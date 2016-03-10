@@ -1,4 +1,4 @@
-#!/bin/bash - 
+#!/bin/bash -e 
 #===============================================================================
 #          FILE: jamx-new-package
 #         USAGE: ./jamx-new-package 
@@ -129,7 +129,7 @@ done
 sed -i "s^@@SUPPORTED_ENVS@@^$SUPPORTED_ENVS^g" $PACKAGE_RC_FILE
 
 echo -en "
-${YELLOW}STEP: Describe $PACKAGE_NAME.
+${YELLOW}STEP: Describe $PACKAGE_NAME
 
 ${CYAN}This will be part of your package metadata and will appear when users search for it.
 The first line should consist of a short summary, after that, you may provide a longer description. 
@@ -141,6 +141,20 @@ if [ -z "$EDITOR" ];then
 fi
 read
 $EDITOR $PACKAGE_DESC_FILE
+
+if [ -z "$JAMX_USERNAME" ];then
+	echo -en "
+	${YELLOW}STEP: Pushing JaM-X $PACKAGE_NAME configuration to the repo
+
+	${CYAN}Your JaM-X username:
+	${NORMAL}
+	" 
+	read -e JAMX_USERNAME
+fi
+sed -i "s^@@JAMX_USERNAME@@^$JAMX_USERNAME^g" $PACKAGE_RC_FILE
+git clone $JAMX_BASE_GIT_REPO/$JAMX_USERNAME
+git checkout -b ${PACKAGE_NAME}
+git add $DIRNAME/jamx-packages-meta/${PACKAGE_NAME} && git commit $DIRNAME/jamx-packages-meta/${PACKAGE_NAME} && git push origin ${PACKAGE_NAME}
 
 $DIRNAME/jamx-start-dockers $PACKAGE_RC_FILE
 
