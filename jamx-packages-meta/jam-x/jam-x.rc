@@ -1,0 +1,16 @@
+JAMX_USERNAME=test-custmoer
+PACKAGE_NAME="jam-x"
+PACKAGE_VERSION="1.0.0"
+# comma separated in the form of $DIST:$VERSION
+SUPPORTED_ENVS="centos:7"
+# URL to download the package source from
+SOURCE_URL="https://github.com/JaM-X/test-custmoer/archive/master.zip"
+# Project URL
+PROJECT_URL="https://github.com/JaM-X/test-custmoer"
+PACKAGE_DESCRIPTION="`dirname $0`/DESCRIPTION"
+MAINTAINER_NAME="Jess Portnoy"
+MAINTAINER_EMAIL="jess@jam-x.com"
+# optional for deb. If not supplied, use container's dist name
+#DIST_NAME="@@DIST_NAME@@"
+
+

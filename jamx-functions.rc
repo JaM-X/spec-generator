@@ -27,11 +27,11 @@ validate_url()
 launch_containers_for_target_envs()
 {
 	TARGET_ENVS="$1"
-	PACKAGE_NAME="$2"
+	PACKAGE_RC="$2"
 	OIFS=$IFS
 	IFS=','
 	for DA_ENV in $TARGET_ENVS;do
-		start_docker_container "docker-specs/$DA_ENV" $PACKAGE_NAME
+		start_docker_container "docker-specs/$DA_ENV" $PACKAGE_RC
 	done
 
 	IFS=$OIFS
@@ -40,15 +40,27 @@ launch_containers_for_target_envs()
 start_docker_container()
 {
 	DOCKER_DIR=$1
-	PACKAGE_NAME=$2
+	PACKAGE_RC=$2
+	. $PACKAGE_RC
 	IMAGE_NAME=`basename $DOCKER_DIR`
 	sudo docker build -t $IMAGE_NAME-$PACKAGE_NAME "$DOCKER_DIR" && sudo docker run -i -t $IMAGE_NAME-$PACKAGE_NAME
+	# next we will need to: 
+	# - install the JaM-X package
+	# - copy over the git SSH key to ~/.ssh
+	# - copy the $PACKAGE_RC to ~jamx/etc
+	# - call jamx-gen-package
 }
 
 destroy_docker_container()
 {
 	IMAGE_NAME=$1
 	sudo docker rmi $IMAGE_NAME
+}
+
+get_container_id()
+{
+	IMAGE_NAME=$1
+	sudo docker ps -l|grep "$1"|awk -F " " '{print $1}'
 }
 
 # validate PACKAGE_NAME

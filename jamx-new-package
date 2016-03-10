@@ -35,9 +35,6 @@ Package Name:${NORMAL}
 "
 read PACKAGE_NAME
 
-PACKAGE_RC_DIR="$DIRNAME/jamx-packages-meta/${PACKAGE_NAME}"
-PACKAGE_RC_FILE="$PACKAGE_RC_DIR/${PACKAGE_NAME}.rc"
-PACKAGE_DESC_FILE="$PACKAGE_RC_DIR/DESCRIPTION"
 
 if [ -s "$PACKAGE_RC_FILE" ];then
 	echo -en "${BRIGHT_RED}$PACKAGE_RC_FILE already exists.
@@ -45,9 +42,35 @@ If you wish to regerate it, first remove this copy.
 ${NORMAL}"
 	exit 2
 fi
+if [ -z "$JAMX_SPACE" ];then
+	echo -en "
+${YELLOW}STEP: Creating $PRODUCT_NAME $PACKAGE_NAME configuration structure
 
-mkdir -p $DIRNAME/jamx-packages-meta/${PACKAGE_NAME}
+${CYAN}Your JaM-X username:
+${NORMAL}
+" 
+	read -e JAMX_SPACE
+fi
+if [ ! -d $JAMX_SPACE ];then
+	git clone $JAMX_BASE_GIT_REPO/$JAMX_SPACE
+fi
+
+cd $JAMX_SPACE
+git fetch --all
+set +e
+if ! git branch |grep -q ${PACKAGE_NAME};then
+	git checkout -b ${PACKAGE_NAME}
+else
+	git checkout ${PACKAGE_NAME}
+fi
+set -e
+cd -
+PACKAGE_RC_DIR="$DIRNAME/$JAMX_SPACE/jamx-packages-meta/${PACKAGE_NAME}"
+PACKAGE_RC_FILE="$PACKAGE_RC_DIR/${PACKAGE_NAME}.rc"
+PACKAGE_DESC_FILE="$PACKAGE_RC_DIR/DESCRIPTION"
+mkdir -p $DIRNAME/$JAMX_SPACE/jamx-packages-meta/${PACKAGE_NAME}
 cp $DIRNAME/jamx-packages-meta/skel.template $PACKAGE_RC_FILE
+sed -i "s^@@JAMX_SPACE@@^$JAMX_SPACE^g" $PACKAGE_RC_FILE
 sed -i "s^@@PACKAGE_NAME@@^$PACKAGE_NAME^g" $PACKAGE_RC_FILE
 
 
@@ -142,19 +165,9 @@ fi
 read
 $EDITOR $PACKAGE_DESC_FILE
 
-if [ -z "$JAMX_USERNAME" ];then
-	echo -en "
-	${YELLOW}STEP: Pushing JaM-X $PACKAGE_NAME configuration to the repo
-
-	${CYAN}Your JaM-X username:
-	${NORMAL}
-	" 
-	read -e JAMX_USERNAME
-fi
-sed -i "s^@@JAMX_USERNAME@@^$JAMX_USERNAME^g" $PACKAGE_RC_FILE
-git clone $JAMX_BASE_GIT_REPO/$JAMX_USERNAME
-git checkout -b ${PACKAGE_NAME}
-git add $DIRNAME/jamx-packages-meta/${PACKAGE_NAME} && git commit $DIRNAME/jamx-packages-meta/${PACKAGE_NAME} && git push origin ${PACKAGE_NAME}
+cd $JAMX_SPACE
+git add jamx-packages-meta/${PACKAGE_NAME} && git commit -m "$PACKAGE_NAME $PACKAGE_VERSION - auto committed by $0" jamx-packages-meta/${PACKAGE_NAME} && git push origin ${PACKAGE_NAME}
+cd - 
 
 $DIRNAME/jamx-start-dockers $PACKAGE_RC_FILE
 
