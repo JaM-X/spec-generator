@@ -24,14 +24,31 @@ validate_url()
         return $?
 
 }
+launch_containers_for_target_envs()
+{
+	TARGET_ENVS="$1"
+	PACKAGE_NAME="$2"
+	OIFS=$IFS
+	IFS=','
+	for DA_ENV in $TARGET_ENVS;do
+		start_docker_container "docker-specs/$DA_ENV" $PACKAGE_NAME
+	done
+
+	IFS=$OIFS
+}
 
 start_docker_container()
 {
-	DOCKER_FILE=$1
+	DOCKER_DIR=$1
 	PACKAGE_NAME=$2
-	DOCKER_DIR=`dirname $DOCKER_FILE`
-	IMAGE_NAME=`basename $DOCKER_FILE`
-	sudo docker build -t $IMAGE_NAME-$PACKAGE_NAME $DOCKER_DIR && sudo docker run -i -t $IMAGE_NAME-$PACKAGE_NAME
+	IMAGE_NAME=`basename $DOCKER_DIR`
+	sudo docker build -t $IMAGE_NAME-$PACKAGE_NAME "$DOCKER_DIR" && sudo docker run -i -t $IMAGE_NAME-$PACKAGE_NAME
+}
+
+destroy_docker_container()
+{
+	IMAGE_NAME=$1
+	sudo docker rmi $IMAGE_NAME
 }
 
 # validate PACKAGE_NAME
