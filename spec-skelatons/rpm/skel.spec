@@ -21,7 +21,6 @@ Requires: @@PACKAGE_REQUIRES@@
 %prep
 %setup -q
 
-
 %build
 %configure
 make %{?_smp_mflags}
@@ -35,11 +34,18 @@ make install DESTDIR=%{buildroot}
 %clean
 rm -rf %{buildroot}
 
+%pre
+
+%post
+
+%preun
+
+%postun
+
 
 %files
 %defattr(-,root,root,-)
 %doc
-
 
 
 %changelog
