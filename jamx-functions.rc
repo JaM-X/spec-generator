@@ -78,7 +78,9 @@ replace_tokens()
         for VAR in `grep -v "^#" $PACKAGE_RC |awk -F "="  '{print $1}' |xargs`;do
                 sed "s#@@$VAR@@#${!VAR}#g" -i $SPEC_FILE
         done
-
+	
+	PACKAGE_SUMMARY=`head -1 $PACKAGE_DESCRIPTION`
+        sed "s#@@PACKAGE_SUMMARY@#$PACKAGE_SUMMARY#g" -i $SPEC_FILE
 }
 
 
