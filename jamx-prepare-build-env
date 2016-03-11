@@ -1,0 +1,35 @@
+#!/bin/bash - 
+#===============================================================================
+#          FILE: jamx-prepare-build-env.sh
+#         USAGE: ./jamx-prepare-build-env 
+#   DESCRIPTION: checkout the metadata configuration for the package from the repo
+# 		 and prepare the git ENV 
+#       OPTIONS: ---
+#  REQUIREMENTS: ---
+#          BUGS: ---
+#         NOTES: ---
+#        AUTHOR: Jess Portnoy (), <jess@jam-x.io>
+#  ORGANIZATION: JaM-X.
+#       CREATED: 03/11/2016 12:47:11 PM GMT
+#      REVISION:  ---
+#===============================================================================
+
+#set -o nounset                              # Treat unset variables as an error
+
+
+. /home/jamx/etc/jamx.rc
+. /home/jamx/etc/package.rc
+ssh-keyscan github.com >> ~/.ssh/known_hosts
+git clone $JAMX_BASE_GIT_REPO/$JAMX_SPACE 
+cd $JAMX_SPACE
+git fetch --all
+set +e
+if ! git branch |grep -q ${BRANCH};then
+	git checkout -b ${BRANCH}
+else
+	git checkout ${BRANCH}
+fi
+set -e
+git config --global user.email $MAINTAINER_EMAIL 
+git config --global user.name $MAINTAINER_NAME
+

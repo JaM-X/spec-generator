@@ -54,23 +54,31 @@ fi
 if [ ! -d $JAMX_SPACE ];then
 	git clone $JAMX_BASE_GIT_REPO/$JAMX_SPACE
 fi
-
+PACKAGE_BRANCH="${PACKAGE_NAME}-${PACKAGE_VERSION}"
 cd $JAMX_SPACE
 git fetch --all
 set +e
-if ! git branch |grep -q ${PACKAGE_NAME};then
-	git checkout -b ${PACKAGE_NAME}
+if ! git branch |grep -q $PACKAGE_BRANCH;then
+	git checkout -b $PACKAGE_BRANCH
 else
-	git checkout ${PACKAGE_NAME}
+	git checkout $PACKAGE_BRANCH
 fi
 set -e
 cd -
+if [ -z "$JAMX_PRIVATE_KEY" ];then
+	echo -en "
+${CYAN}Your JaM-X repo private SSH key:
+${NORMAL}
+" 
+	read -e JAMX_PRIVATE_KEY
+fi
 PACKAGE_RC_DIR="$DIRNAME/$JAMX_SPACE/jamx-packages-meta/${PACKAGE_NAME}"
 PACKAGE_RC_FILE="$PACKAGE_RC_DIR/${PACKAGE_NAME}.rc"
 PACKAGE_DESC_FILE="$PACKAGE_RC_DIR/DESCRIPTION"
 mkdir -p $DIRNAME/$JAMX_SPACE/jamx-packages-meta/${PACKAGE_NAME}
 cp $DIRNAME/jamx-packages-meta/skel.template $PACKAGE_RC_FILE
 sed -i "s^@@JAMX_SPACE@@^$JAMX_SPACE^g" $PACKAGE_RC_FILE
+sed -i "s^@@JAMX_PRIVATE_KEY@@^$JAMX_PRIVATE_KEY^g" $PACKAGE_RC_FILE
 sed -i "s^@@PACKAGE_NAME@@^$PACKAGE_NAME^g" $PACKAGE_RC_FILE
 
 
@@ -166,7 +174,7 @@ read
 $EDITOR $PACKAGE_DESC_FILE
 
 cd $JAMX_SPACE
-git add jamx-packages-meta/${PACKAGE_NAME} && git commit -m "$PACKAGE_NAME $PACKAGE_VERSION - auto committed by $0" jamx-packages-meta/${PACKAGE_NAME} && git push origin ${PACKAGE_NAME}
+git add jamx-packages-meta/${PACKAGE_NAME} && git commit -m "$PACKAGE_NAME $PACKAGE_VERSION - auto committed by $0" jamx-packages-meta/${PACKAGE_NAME} && git push origin $PACKAGE_BRANCH
 cd - 
 
 $DIRNAME/jamx-start-dockers $PACKAGE_RC_FILE

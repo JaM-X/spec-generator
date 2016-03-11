@@ -43,12 +43,16 @@ start_docker_container()
 	PACKAGE_RC=$2
 	. $PACKAGE_RC
 	IMAGE_NAME=`basename $DOCKER_DIR`
-	sudo docker build -t $IMAGE_NAME-$PACKAGE_NAME "$DOCKER_DIR" && sudo docker run -t $IMAGE_NAME-$PACKAGE_NAME mkdir -p /home/jamx/etc 
-	sudo docker run -t $IMAGE_NAME-$PACKAGE_NAME  mkdir -p /home/jamx/.ssh
-	# next we will need to: 
+	sudo docker build -t $IMAGE_NAME-$PACKAGE_NAME "$DOCKER_DIR" 
+	sudo docker run -t $IMAGE_NAME-$PACKAGE_NAME mkdir -p /home/jamx/etc 
 	CONTAINER_ID=`get_container_id $IMAGE_NAME-$PACKAGE_NAME`
-	sudo docker cp  ~/.ssh/id_rsa  $CONTAINER_ID:/home/jamx/.ssh
-	sudo docker cp $PACKAGE_RC $CONTAINER_ID:/home/jamx/etc
+	sudo docker commit $CONTAINER_ID $IMAGE_NAME-$PACKAGE_NAME
+	sudo docker run -t $IMAGE_NAME-$PACKAGE_NAME  mkdir -p /home/jamx/.ssh
+	CONTAINER_ID=`get_container_id $IMAGE_NAME-$PACKAGE_NAME`
+	sudo docker commit $CONTAINER_ID $IMAGE_NAME-$PACKAGE_NAME
+	sudo docker cp $JAMX_PRIVATE_KEY  $CONTAINER_ID:/home/jamx/.ssh/
+	sudo docker commit $CONTAINER_ID $IMAGE_NAME-$PACKAGE_NAME
+	sudo docker cp $PACKAGE_RC $CONTAINER_ID:/home/jamx/etc/package.rc
 	sudo docker commit $CONTAINER_ID $IMAGE_NAME-$PACKAGE_NAME
 
 	# - call jamx-gen-package
