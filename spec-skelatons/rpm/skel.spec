@@ -1,6 +1,6 @@
 Name: @@PACKAGE_NAME@@
 Version: @@PACKAGE_VERSION@@
-Release:        1
+Release: 1
 Summary: @@PACKAGE_SUMMARY@
 
 Group: @@PACKAGE_GROUP@@
@@ -9,7 +9,7 @@ URL: @@PROJECT_URL@@
 Packager: @@MAINTAINER_NAME@@ <@@MAINTAINER_EMAIL@@>
 
 
-Source0: @@PACKAGE_URL@@
+Source0: @@SOURCE_URL@@
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 BuildRequires: @@BUILD_REQUIRES@@

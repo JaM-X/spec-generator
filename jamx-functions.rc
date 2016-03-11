@@ -70,5 +70,17 @@ get_container_id()
 	sudo docker ps -l|grep "$1"|awk -F " " '{print $1}'
 }
 
+replace_tokens()
+{
+        PACKAGE_RC=$1
+        SPEC_FILE=$2
+        . $PACKAGE_RC
+        for VAR in `grep -v "^#" $PACKAGE_RC |awk -F "="  '{print $1}' |xargs`;do
+                sed "s#@@$VAR@@#${!VAR}#g" -i $SPEC_FILE
+        done
+
+}
+
+
 # validate PACKAGE_NAME
 # validate PACKAGE_VERSION
