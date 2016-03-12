@@ -1,0 +1,91 @@
+# required functions
+validate_target_envs()
+{
+	SUPPORTED_ENVS="$1"
+	OIFS=$IFS
+	IFS=','
+	for DA_ENV in $SUPPORTED_ENVS;do
+		if ! echo "$AVAILABLE_ENVS"| grep -q $DA_ENV;then
+			UNSUPPORTED_ENVS="$UNSUPPORTED_ENVS $DA_ENV"
+	   	fi
+	done
+
+	IFS=$OIFS
+	if [ -n "$UNSUPPORTED_ENVS" ];then
+		export UNSUPPORTED_ENVS
+		return 1
+	fi
+}
+
+validate_url()
+{
+	SOURCE_URL=$1
+	curl -f "$SOURCE_URL" -k  > /dev/null 2>&1
+        return $?
+
+}
+launch_containers_for_target_envs()
+{
+	TARGET_ENVS="$1"
+	PACKAGE_RC="$2"
+	OIFS=$IFS
+	IFS=','
+	for DA_ENV in $TARGET_ENVS;do
+		start_docker_container "docker-specs/$DA_ENV" $PACKAGE_RC
+	done
+
+	IFS=$OIFS
+}
+
+start_docker_container()
+{
+set -x
+	DOCKER_DIR=$1
+	PACKAGE_RC=$2
+	. $PACKAGE_RC
+	IMAGE_NAME=`basename $DOCKER_DIR`
+	sudo docker build -t $IMAGE_NAME-$PACKAGE_NAME "$DOCKER_DIR" 
+	sudo docker run -t $IMAGE_NAME-$PACKAGE_NAME mkdir -p /home/jamx/etc 
+	CONTAINER_ID=`get_container_id $IMAGE_NAME-$PACKAGE_NAME`
+	sudo docker commit $CONTAINER_ID $IMAGE_NAME-$PACKAGE_NAME
+	sudo docker run -t $IMAGE_NAME-$PACKAGE_NAME  mkdir -p /home/jamx/.ssh
+	CONTAINER_ID=`get_container_id $IMAGE_NAME-$PACKAGE_NAME`
+	sudo docker commit $CONTAINER_ID $IMAGE_NAME-$PACKAGE_NAME
+	sudo docker cp $JAMX_PRIVATE_KEY  $CONTAINER_ID:/home/jamx/.ssh/id_rsa
+	sudo docker commit $CONTAINER_ID $IMAGE_NAME-$PACKAGE_NAME
+	sudo docker cp $PACKAGE_RC $CONTAINER_ID:/home/jamx/etc/package.rc
+	sudo docker commit $CONTAINER_ID $IMAGE_NAME-$PACKAGE_NAME
+set +x
+	# - call jamx-gen-package
+}
+
+destroy_docker_container()
+{
+	IMAGE_NAME=$1
+	sudo docker rmi $IMAGE_NAME
+}
+
+get_container_id()
+{
+	IMAGE_NAME=$1
+	sudo docker ps -l|grep "$1"|awk -F " " '{print $1}'
+}
+
+replace_tokens()
+{
+        PACKAGE_RC=$1
+        SPEC_FILE=$2
+        . $PACKAGE_RC
+        for VAR in `grep -v "^#" $PACKAGE_RC |awk -F "="  '{print $1}' |xargs`;do
+                sed "s#@@$VAR@@#${!VAR}#g" -i $SPEC_FILE
+        done
+	
+	PACKAGE_SUMMARY=`head -1 $PACKAGE_DESCRIPTION`
+        sed "s#@@PACKAGE_SUMMARY@@#$PACKAGE_SUMMARY#g" -i $SPEC_FILE
+        DESCRIPTION=`cat $PACKAGE_DESCRIPTION|sed ':a;N;$!ba;s/\n/\\\\\n/g'`
+        sed "s#@@PACKAGE_DESCRIPTION@@#${DESCRIPTION}#g" -i $SPEC_FILE
+}
+
+
+# validate PACKAGE_NAME
+# validate PACKAGE_VERSION

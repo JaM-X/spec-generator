@@ -1,0 +1,52 @@
+#!/bin/bash - 
+#===============================================================================
+#          FILE: jamx-gen-spec.sh
+#         USAGE: ./jamx-gen-spec.sh 
+#   DESCRIPTION: Will accept a source in the form of a URL or local FS path and generate spec files 
+#       OPTIONS: source path
+#  REQUIREMENTS: ---
+#          BUGS: ---
+#         NOTES: ---
+#        AUTHOR: Jess Portnoy (), <jess@jam-x.io>
+#  ORGANIZATION: JaM-X.
+#       CREATED: 02/20/2016 10:48:56 PM GMT
+#      REVISION:  ---
+#===============================================================================
+
+#set -o nounset                              # Treat unset variables as an error
+DIRNAME=`dirname $0`
+NEEDED_FILES="/home/jamx/etc/jamx.rc $DIRNAME/jamx-functions.rc"
+for NEEDED_FILE in $NEEDED_FILES;do
+        if [ ! -r $NEEDED_FILE ];then
+                echo "Missing $NEEDED_FILE. Something is wrong with your ENV. Exiting."
+                exit 1
+        fi
+        . $NEEDED_FILE
+done
+if [ ! -r "$1" ];then
+        echo "Usage: $0 </path/to/package.rc>"
+        exit 1
+fi
+PACKAGE_RC=$1
+#
+. $PACKAGE_RC
+cp /home/jamx/etc/spec-skelatons/rpm/skel.spec ~/$PACKAGE_NAME.spec
+replace_tokens $PACKAGE_RC ~/$PACKAGE_NAME.spec
+
+	
+
+#prepare_source()
+#{
+#	- fetch and extract
+# 	- 
+#}
+
+#is_arch_indep()
+#{
+#
+#}
+
+#detect_deps()
+#{
+#
+#}
