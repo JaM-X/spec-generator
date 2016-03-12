@@ -15,7 +15,7 @@ Source0: %{name}-%{version}.tar.gz
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 #BuildRequires: @@BUILD_REQUIRES@@
-Requires: rpm-build vim-enhanced wget unzip git
+Requires: rpm-build vim-enhanced wget unzip git sudo
 
 %description
 An End-to-End Software Packaging Platform.
@@ -53,7 +53,17 @@ getent passwd jamx >/dev/null || useradd -M -r -s /bin/bash -c "JaM-X user" -g j
 
 
 %post
+if [ "$1" = 1 ];then
+        cp /etc/sudoers /tmp/sudoers.new
+        echo "## Done by JaM-X postinst" >> /tmp/sudoers.new
+        echo "jamx ALL=(ALL) NOPASSWD: /usr/bin/docker" >> /tmp/sudoers.new
 
+        visudo -c -f /tmp/sudoers.new
+        if [ $? -eq 0 ]; then
+            cp /tmp/sudoers.new /etc/sudoers
+        fi
+        rm /tmp/sudoers.new
+fi
 
 %preun
 
