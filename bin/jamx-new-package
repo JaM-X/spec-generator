@@ -14,7 +14,7 @@
 #===============================================================================
 
 DIRNAME=`dirname $0`
-NEEDED_FILES="$DIRNAME/jamx.rc $DIRNAME/jamx-functions.rc $DIRNAME/colors.rc"
+NEEDED_FILES="/home/jamx/etc/jamx.rc $DIRNAME/jamx-functions.rc $DIRNAME/colors.rc"
 for NEEDED_FILE in $NEEDED_FILES;do
 	if [ ! -r $NEEDED_FILE ];then
 		echo "Missing $NEEDED_FILE. Something is wrong with your ENV. Exiting."
