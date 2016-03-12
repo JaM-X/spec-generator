@@ -54,6 +54,13 @@ $EXTRACT_COMMAND $ARCHIVE_NAME
 #- remove {.git,.csv,.svn} files
 #- set proper permissions on files, i.e: remove redundant/add exec bit where needed
 # if the first line of the file is "^#!" - we need to set exec bit on
+
+# determine whether or not we're a noarch/build-indep package by analyzing source code
+# then set @@BUILD_ARCH@@ accordingly in BuildArch or Architecture 
+
+# try to detect the license and prompt if no LICENSE file exists, then download and add a LICENSE file accordingly to user selection
+
 # normalize dirname so that it is always $PACKAGE_NAME-$PACKAGE_VERSION.tar.gz and has a $PACKAGE_NAME-$PACKAGE_VERSION dir in it.
 # this way, we can always use Source0: %{name}-%{version} in the RPM spec file.
+
 
