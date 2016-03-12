@@ -1,7 +1,7 @@
 #!/bin/bash - 
 #===============================================================================
-#          FILE: jamx-gen-spec.sh
-#         USAGE: ./jamx-gen-spec.sh 
+#          FILE: jamx-gen-spec
+#         USAGE: ./jamx-gen-spec 
 #   DESCRIPTION: Will accept a source in the form of a URL or local FS path and generate spec files 
 #       OPTIONS: source path
 #  REQUIREMENTS: ---
