@@ -30,8 +30,10 @@ fi
 PACKAGE_RC=$1
 #
 . $PACKAGE_RC
+# if this is an RPM
+# we will deduce that from the ENV we're running in, need a function for that in jamx-functions.rc
 cp /home/jamx/etc/spec-skelatons/rpm/skel.spec ~/$PACKAGE_NAME.spec
-replace_tokens $PACKAGE_RC ~/$PACKAGE_NAME.spec
+replace_rpm_spec_tokens $PACKAGE_RC ~/$PACKAGE_NAME.spec
 
 	
 
