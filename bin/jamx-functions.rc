@@ -86,10 +86,16 @@ replace_rpm_spec_tokens()
         sed "s#@@PACKAGE_DESCRIPTION@@#${DESCRIPTION}#g" -i $SPEC_FILE
 }
 
-env_package_format()
+env_packaging_format()
 {
-	echo "placeholder"
+	DISTRO=`lsb_release -i -s`
+	if [ "$DISTRO" = "Ubuntu" -o "$DISTRO" = "Debian" ];then
+		return 1 
+	elif [ "$DISTRO" = "CentOS" ];then
+		return 2
+	fi
 }
+
 
 
 # validate PACKAGE_NAME

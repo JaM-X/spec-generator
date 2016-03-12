@@ -60,6 +60,9 @@ $EXTRACT_COMMAND $ARCHIVE_NAME
 
 # try to detect the license and prompt if no LICENSE file exists, then download and add a LICENSE file accordingly to user selection
 
+# auto detect config files
+# auto detect init scripts
+
 # normalize dirname so that it is always $PACKAGE_NAME-$PACKAGE_VERSION.tar.gz and has a $PACKAGE_NAME-$PACKAGE_VERSION dir in it.
 # this way, we can always use Source0: %{name}-%{version} in the RPM spec file.
 

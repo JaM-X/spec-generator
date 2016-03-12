@@ -31,25 +31,21 @@ PACKAGE_RC=$1
 #
 . $PACKAGE_RC
 # if this is an RPM
-# we will deduce that from the ENV we're running in, need a function for that in jamx-functions.rc
-cp /home/jamx/etc/spec-skelatons/rpm/skel.spec ~/$PACKAGE_NAME.spec
-replace_rpm_spec_tokens $PACKAGE_RC ~/$PACKAGE_NAME.spec
+env_packaging_format
+if [ $? -eq 2 ];then
+	cp /home/jamx/etc/spec-skelatons/rpm/skel.spec ~/$PACKAGE_NAME.spec
+	replace_rpm_spec_tokens $PACKAGE_RC ~/$PACKAGE_NAME.spec
+	# if rpmbuild -ba failed, we want to see if we have missing files and add them to the spec
+	# rpmbuild -bl ~/$PACKAGE_NAME.spec 2>&1|grep -A1000 "^\s*Installed (but unpackaged) file(s) found:"|sed -e '1,1d' -e "s/\s*//g" >/home/jamx/tmp/${PACKAGE_NAME}.missing
+	# MISSING=`cat /tmp/missing|sed ':a;N;$!ba;s/\n/\\\\\n/g'`
+	# sed -i "s^\(%files\)^\1\n$MISSING^g" ~/$PACKAGE_NAME.spec
 
-# if rpmbuild -ba failed, we want to see if we have missing files and add them to the spec
-# rpmbuild -bl ~/$PACKAGE_NAME.spec 2>&1|grep -A1000 "^\s*Installed (but unpackaged) file(s) found:"|sed -e '1,1d' -e "s/\s*//g" >/home/jamx/tmp/${PACKAGE_NAME}.missing
-# MISSING=`cat /tmp/missing|sed ':a;N;$!ba;s/\n/\\\\\n/g'`
-# sed -i "s^\(%files\)^\1\n$MISSING^g" ~/$PACKAGE_NAME.spec
-
-# if we got arch dep error:
-# rpmbuild -ba /home/jamx/jam-x.spec 2>&1|grep "Arch dependent binaries in noarch package"
-# remove BuildArch: noarch from spec, we were wrong in our detection
+	# if we got arch dep error:
+	# rpmbuild -ba /home/jamx/jam-x.spec 2>&1|grep "Arch dependent binaries in noarch package"
+	# remove BuildArch: noarch from spec, we were wrong in our detection
+fi
 	
 
-#prepare_source()
-#{
-#	- fetch and extract
-# 	- 
-#}
 
 #is_arch_indep()
 #{
