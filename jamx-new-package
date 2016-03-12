@@ -36,12 +36,6 @@ Package Name:${NORMAL}
 read PACKAGE_NAME
 
 
-if [ -s "$PACKAGE_RC_FILE" ];then
-	echo -en "${BRIGHT_RED}$PACKAGE_RC_FILE already exists.
-If you wish to regerate it, first remove this copy.
-${NORMAL}"
-	exit 2
-fi
 if [ -z "$JAMX_SPACE" ];then
 	echo -en "
 ${YELLOW}STEP: Creating $PRODUCT_NAME $PACKAGE_NAME configuration structure
@@ -51,6 +45,35 @@ ${NORMAL}
 " 
 	read -e JAMX_SPACE
 fi
+if [ -z "$JAMX_PRIVATE_KEY" ];then
+	echo -en "
+${CYAN}Your JaM-X repo private SSH key:
+${NORMAL}
+" 
+	read -e JAMX_PRIVATE_KEY
+fi
+PACKAGE_RC_DIR="$DIRNAME/$JAMX_SPACE/jamx-packages-meta/${PACKAGE_NAME}"
+PACKAGE_RC_FILE="$PACKAGE_RC_DIR/${PACKAGE_NAME}.rc"
+if [ -s "$PACKAGE_RC_FILE" ];then
+	echo -en "${BRIGHT_RED}$PACKAGE_RC_FILE already exists.
+If you wish to regerate it, first remove this copy.
+${NORMAL}"
+	exit 2
+fi
+PACKAGE_DESC_FILE="$PACKAGE_RC_DIR/DESCRIPTION"
+mkdir -p $DIRNAME/$JAMX_SPACE/jamx-packages-meta/${PACKAGE_NAME}
+cp $DIRNAME/jamx-packages-meta/skel.template $PACKAGE_RC_FILE
+sed -i "s^@@JAMX_SPACE@@^$JAMX_SPACE^g" $PACKAGE_RC_FILE
+sed -i "s^@@JAMX_PRIVATE_KEY@@^$JAMX_PRIVATE_KEY^g" $PACKAGE_RC_FILE
+sed -i "s^@@PACKAGE_NAME@@^$PACKAGE_NAME^g" $PACKAGE_RC_FILE
+echo -en "
+${YELLOW}STEP: Package Version
+
+${CYAN}$PACKAGE_NAME version:${NORMAL}
+"
+read -e PACKAGE_VERSION
+sed -i "s^@@PACKAGE_VERSION@@^$PACKAGE_VERSION^g" $PACKAGE_RC_FILE
+
 if [ ! -d $JAMX_SPACE ];then
 	git clone $JAMX_BASE_GIT_REPO/$JAMX_SPACE
 fi
@@ -65,22 +88,6 @@ else
 fi
 set -e
 cd -
-if [ -z "$JAMX_PRIVATE_KEY" ];then
-	echo -en "
-${CYAN}Your JaM-X repo private SSH key:
-${NORMAL}
-" 
-	read -e JAMX_PRIVATE_KEY
-fi
-PACKAGE_RC_DIR="$DIRNAME/$JAMX_SPACE/jamx-packages-meta/${PACKAGE_NAME}"
-PACKAGE_RC_FILE="$PACKAGE_RC_DIR/${PACKAGE_NAME}.rc"
-PACKAGE_DESC_FILE="$PACKAGE_RC_DIR/DESCRIPTION"
-mkdir -p $DIRNAME/$JAMX_SPACE/jamx-packages-meta/${PACKAGE_NAME}
-cp $DIRNAME/jamx-packages-meta/skel.template $PACKAGE_RC_FILE
-sed -i "s^@@JAMX_SPACE@@^$JAMX_SPACE^g" $PACKAGE_RC_FILE
-sed -i "s^@@JAMX_PRIVATE_KEY@@^$JAMX_PRIVATE_KEY^g" $PACKAGE_RC_FILE
-sed -i "s^@@PACKAGE_NAME@@^$PACKAGE_NAME^g" $PACKAGE_RC_FILE
-
 
 echo -en "
 ${YELLOW}STEP: Package Source URL
@@ -115,13 +122,6 @@ ${CYAN}URL to download $PACKAGE_NAME source from:${NORMAL}"
 	read -e SOURCE_URL
 done
 
-echo -en "
-${YELLOW}STEP: Package Version
-
-${CYAN}$PACKAGE_NAME version:${NORMAL}
-"
-read -e PACKAGE_VERSION
-sed -i "s^@@PACKAGE_VERSION@@^$PACKAGE_VERSION^g" $PACKAGE_RC_FILE
 
 echo -en "
 ${YELLOW}STEP: Package Maintainer

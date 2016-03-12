@@ -39,6 +39,7 @@ launch_containers_for_target_envs()
 
 start_docker_container()
 {
+set -x
 	DOCKER_DIR=$1
 	PACKAGE_RC=$2
 	. $PACKAGE_RC
@@ -50,11 +51,11 @@ start_docker_container()
 	sudo docker run -t $IMAGE_NAME-$PACKAGE_NAME  mkdir -p /home/jamx/.ssh
 	CONTAINER_ID=`get_container_id $IMAGE_NAME-$PACKAGE_NAME`
 	sudo docker commit $CONTAINER_ID $IMAGE_NAME-$PACKAGE_NAME
-	sudo docker cp $JAMX_PRIVATE_KEY  $CONTAINER_ID:/home/jamx/.ssh/
+	sudo docker cp $JAMX_PRIVATE_KEY  $CONTAINER_ID:/home/jamx/.ssh/id_rsa
 	sudo docker commit $CONTAINER_ID $IMAGE_NAME-$PACKAGE_NAME
 	sudo docker cp $PACKAGE_RC $CONTAINER_ID:/home/jamx/etc/package.rc
 	sudo docker commit $CONTAINER_ID $IMAGE_NAME-$PACKAGE_NAME
-
+set +x
 	# - call jamx-gen-package
 }
 
