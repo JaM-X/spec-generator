@@ -49,5 +49,4 @@ rm -rf %{buildroot}
 
 
 %changelog
-@@PACKAGE_CHANGELOG@@
 
