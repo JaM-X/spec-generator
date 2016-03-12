@@ -1,0 +1,4 @@
+nginx-mod-vod:
+  envs:
+    - debian wheezy
+    - rhel 7

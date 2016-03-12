@@ -1,0 +1,6 @@
+An End-to-End Software Packaging Platform.
+The JaM-X platform intends to relief the development team from the requirement of having packaging expertise by automating most of the work and providing guided package generation wizards when manual intervention is necessary.
+
+Once package specifications have been defined, the platform will build the packages on all target platforms, run sanity [acceptance] tests and distribute the packages to a repository dedicated for the project.
+
+This allows development teams to focus on what they do best: write software; and frees them from manual labour on packaging and distribution.
