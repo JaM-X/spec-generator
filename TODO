@@ -8,6 +8,7 @@ General items:
    BUILD BUILDROOT RPMS SRPMS
  - JaM-X scripts go to ~jamx/bin
  - configuration goes to ~jamx/etc
+ - tmp stuff goes to ~jamx/tmp
  - jamx user .bashrc should have a nice PS1 and also PATH that includes /home/jamx/bin and a few other useful aliases like:
 	alias ll='ls -alF'
 	alias la='ls -A'

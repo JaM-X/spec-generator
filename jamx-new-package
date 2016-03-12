@@ -168,7 +168,7 @@ Hit enter to input $PACKAGE_NAME description
 ${NORMAL}
 " 
 if [ -z "$EDITOR" ];then
-	EDITOR=nano
+	EDITOR=vi
 fi
 read
 $EDITOR $PACKAGE_DESC_FILE
